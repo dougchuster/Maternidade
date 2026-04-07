@@ -1,7 +1,6 @@
 /// <reference types="vite/client" />
 
 interface ImportMetaEnv {
-  readonly VITE_GTAG_ID?: string;
   /** Google Ads: valor completo "AW-123456789/label" da ação de conversão */
   readonly VITE_GOOGLE_ADS_CONVERSION_SEND_TO?: string;
   /** GA4: nome do evento extra ao gerar lead (ex.: generate_lead) */

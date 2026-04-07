@@ -11,4 +11,4 @@ npm run dev
 
 ## Variáveis de ambiente
 
-Copie `.env.example` para `.env` e preencha `VITE_GTAG_ID` e conversões conforme o Google Ads / GA4.
+A tag Google está em `index.html`. No `.env`, opcionalmente configure `VITE_GOOGLE_ADS_CONVERSION_SEND_TO` e eventos extras conforme o Google Ads / GA4.
