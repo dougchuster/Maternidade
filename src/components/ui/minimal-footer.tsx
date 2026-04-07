@@ -1,13 +1,4 @@
-import type { ReactNode } from 'react';
-import {
-  Facebook,
-  Instagram,
-  Linkedin,
-  Mail,
-  MapPin,
-  Phone,
-  Youtube,
-} from 'lucide-react';
+import { Mail, MapPin, Phone } from 'lucide-react';
 import {
   CONTACT_ADDRESS_LINES,
   CONTACT_EMAIL,
@@ -15,24 +6,20 @@ import {
   CONTACT_PHONE_DISPLAY,
   CONTACT_PHONE_TEL,
 } from '@/src/contact';
+import { getSocialLinks } from '@/src/site-config';
 
 const year = new Date().getFullYear();
 
 const quickLinks = [
-  { title: 'Início', href: '#top' },
-  { title: 'Especialidades', href: '#specialties' },
-  { title: 'Sobre', href: '#about' },
-  { title: 'Depoimentos', href: '#testimonials' },
-  { title: 'Dúvidas', href: '#faq' },
-  { title: 'Contato', href: '#form' },
+  { title: 'Início', href: '/' },
+  { title: 'Desafios', href: '/#pain-points' },
+  { title: 'Especialidade', href: '/#specialties' },
+  { title: 'Sobre', href: '/#about' },
+  { title: 'Como funciona', href: '/#how-it-works' },
+  { title: 'Dúvidas', href: '/#faq' },
+  { title: 'Contato', href: '/#form' },
+  { title: 'Privacidade', href: '/privacidade' },
 ] as const;
-
-const socialLinks: { icon: ReactNode; href: string; label: string }[] = [
-  { icon: <Instagram className="h-4 w-4" />, href: '#', label: 'Instagram' },
-  { icon: <Facebook className="h-4 w-4" />, href: '#', label: 'Facebook' },
-  { icon: <Linkedin className="h-4 w-4" />, href: '#', label: 'LinkedIn' },
-  { icon: <Youtube className="h-4 w-4" />, href: '#', label: 'YouTube' },
-];
 
 /** Mesmo stack atmosférico de FAQ / Benefits */
 function FooterBackdrop() {
@@ -73,6 +60,8 @@ function FooterBackdrop() {
 }
 
 export function MinimalFooter() {
+  const socialLinks = getSocialLinks();
+
   return (
     <footer className="relative overflow-hidden text-surface">
       <FooterBackdrop />
@@ -88,7 +77,7 @@ export function MinimalFooter() {
             {/* Logo + texto */}
             <div className="min-w-0">
               <a
-                href="#top"
+                href="/"
                 className="inline-flex max-w-full opacity-90 transition-opacity hover:opacity-100"
               >
                 <img
@@ -106,20 +95,22 @@ export function MinimalFooter() {
                 Coimbra & Ruas — advocacia previdenciária. Atuamos em aposentadorias, revisões, BPC/LOAS
                 e planejamento com ética e proximidade ao cliente.
               </p>
-              <div className="mt-5 flex flex-wrap gap-2">
-                {socialLinks.map((item, i) => (
-                  <a
-                    key={i}
-                    href={item.href}
-                    aria-label={item.label}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="rounded-md border border-primary-container/20 bg-inverse-surface/30 p-2 text-surface/90 backdrop-blur-sm transition-colors hover:border-primary-container/45 hover:bg-primary-container/10 hover:text-primary-container"
-                  >
-                    {item.icon}
-                  </a>
-                ))}
-              </div>
+              {socialLinks.length > 0 ? (
+                <div className="mt-5 flex flex-wrap gap-2">
+                  {socialLinks.map((item, i) => (
+                    <a
+                      key={i}
+                      href={item.href}
+                      aria-label={item.label}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="rounded-md border border-primary-container/20 bg-inverse-surface/30 p-2 text-surface/90 backdrop-blur-sm transition-colors hover:border-primary-container/45 hover:bg-primary-container/10 hover:text-primary-container"
+                    >
+                      {item.icon}
+                    </a>
+                  ))}
+                </div>
+              ) : null}
             </div>
 
             {/* Links rápidos */}
@@ -182,7 +173,10 @@ export function MinimalFooter() {
           />
 
           <p className="mt-6 text-center font-sans text-xs text-surface/40 md:mt-8">
-            © {year} Coimbra & Ruas Advogados Associados. Todos os direitos reservados.
+            © {year} Coimbra & Ruas Advogados Associados. Todos os direitos reservados. ·{' '}
+            <a href="/privacidade" className="underline-offset-2 transition-colors hover:text-surface/55 hover:underline">
+              Política de privacidade
+            </a>
           </p>
         </div>
       </div>

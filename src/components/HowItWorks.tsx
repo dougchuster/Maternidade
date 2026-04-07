@@ -2,41 +2,43 @@ import {
   CheckCircle2,
   ChevronDown,
   ChevronRight,
-  FileSearch,
   MessageSquare,
+  FileSearch,
   Route,
+  Target,
 } from 'lucide-react';
 import { motion } from 'motion/react';
+import { trackLeadIntent } from '@/src/analytics';
 import { CONTACT_WHATSAPP_HREF } from '@/src/contact';
 
 const steps = [
   {
     step: '01',
     icon: MessageSquare,
-    title: 'Fale Conosco',
+    title: 'Você chama nossa equipe',
     description:
-      'Entre em contato pelo WhatsApp ou formulário. O primeiro atendimento é gratuito e sem compromisso.',
+      'Preenche o formulário ou entra em contato pelo WhatsApp. O primeiro contato é rápido e sem compromisso.',
   },
   {
     step: '02',
     icon: FileSearch,
-    title: 'Análise do Caso',
+    title: 'Seu caso é analisado',
     description:
-      'Nossa equipe avalia seu histórico contributivo, documentos e identifica a melhor estratégia para o seu perfil.',
+      'Verificamos sua situação, categoria, documentos e pontos principais do seu caso.',
   },
   {
     step: '03',
     icon: Route,
-    title: 'Plano de Ação Personalizado',
+    title: 'Você recebe a orientação adequada',
     description:
-      'Você recebe um plano claro com prazos, regras aplicáveis e o melhor caminho para seu benefício.',
+      'Explicamos o que precisa ser feito, corrigido ou reunido. Sem juridiquês.',
   },
   {
     step: '04',
-    icon: CheckCircle2,
-    title: 'Resultado com Segurança',
+    icon: Target,
+    title: 'Seguimos com a estratégia',
     description:
-      'Acompanhamos todo o processo — administrativo ou judicial — até a conquista do seu direito.',
+      'Cada situação exige atenção própria. O atendimento é personalizado e focado no seu caso.',
   },
 ] as const;
 
@@ -86,14 +88,15 @@ export default function HowItWorks() {
           className="mx-auto mb-12 max-w-3xl text-center md:mb-14"
         >
           <p className="mb-3 font-sans text-[11px] font-semibold uppercase tracking-[0.28em] text-primary-container/90">
-            Passo a passo
+            Veja como funciona
           </p>
-          <h2 className="font-serif text-3xl leading-tight text-on-surface md:text-4xl lg:text-[2.5rem]">
-            Como funciona nossa{' '}
-            <span className="italic text-primary-container">consultoria?</span>
+          <h2 className="font-heading text-3xl leading-tight text-on-surface md:text-4xl lg:text-[2.5rem]">
+            Do primeiro contato à{' '}
+            <span className="font-bold text-primary-container">estratégia do seu caso</span>
           </h2>
           <p className="mx-auto mt-5 max-w-2xl font-sans text-base leading-relaxed text-on-surface-variant md:text-lg">
-            Um processo claro, do primeiro contato ao resultado — sem surpresas.
+            Um processo claro, com atenção individual e foco em evitar erros, atrasos e perda de
+            oportunidade.
           </p>
         </motion.div>
 
@@ -114,7 +117,7 @@ export default function HowItWorks() {
                 <div className="mb-4 text-primary-container">
                   <item.icon className="h-10 w-10" strokeWidth={1.35} aria-hidden />
                 </div>
-                <h3 className="mb-3 font-serif text-2xl text-on-surface sm:text-xl">{item.title}</h3>
+                <h3 className="mb-3 font-heading text-2xl text-on-surface sm:text-xl">{item.title}</h3>
                 <p className="font-sans text-sm leading-relaxed text-on-surface-variant md:text-[0.9375rem]">
                   {item.description}
                 </p>
@@ -140,11 +143,12 @@ export default function HowItWorks() {
             href={CONTACT_WHATSAPP_HREF}
             target="_blank"
             rel="noopener noreferrer"
+            onClick={() => trackLeadIntent()}
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.98 }}
             className="btn-animated-gradient inline-flex w-full max-w-md items-center justify-center rounded-sm px-8 py-4 text-center text-sm font-bold uppercase tracking-wide shadow-xl sm:w-auto sm:text-base"
           >
-            Quero começar minha análise
+            Quero começar agora
           </motion.a>
         </motion.div>
       </div>

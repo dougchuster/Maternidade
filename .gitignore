@@ -1,8 +1,12 @@
+# Artefato acidental no Windows (nome reservado)
+nul
+
 node_modules/
 build/
 dist/
 coverage/
 .DS_Store
 *.log
+tsconfig.tsbuildinfo
 .env*
 !.env.example

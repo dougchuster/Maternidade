@@ -34,7 +34,7 @@ export default function About() {
                 <img
                   className="aspect-square h-auto w-full object-cover object-center"
                   src="/images/paula_matos.jpg"
-                  alt="Dra. Paula Matos, advogada especialista em direito previdenciário"
+                  alt="Dra. Paula Matos, advogada especialista em auxílio-maternidade e direito previdenciário"
                   loading="lazy"
                   decoding="async"
                   width={600}
@@ -54,7 +54,7 @@ export default function About() {
             <span className="mb-3 block font-sans text-[11px] font-semibold uppercase tracking-[0.28em] text-primary-container">
               A especialista
             </span>
-            <h2 className="font-serif text-5xl leading-[1.1] text-on-surface md:text-6xl md:leading-[1.08]">
+            <h2 className="font-heading text-5xl leading-[1.1] text-on-surface md:text-6xl md:leading-[1.08]">
               Dra. Paula Matos
             </h2>
             <div className="mt-5 flex items-center gap-3">
@@ -62,27 +62,28 @@ export default function About() {
               <span className="h-px flex-1 max-w-[120px] bg-outline-variant/60" />
             </div>
 
-            <blockquote className="mt-8 border-l-[3px] border-primary-container/40 pl-5 font-serif text-xl font-medium italic leading-relaxed text-on-surface md:text-2xl md:leading-snug">
-              Meu compromisso é transformar anos de trabalho árduo em uma aposentadoria digna e
-              segura.
+            <blockquote className="mt-8 border-l-[3px] border-primary-container/40 pl-5 font-heading text-xl font-medium italic leading-relaxed text-on-surface md:text-2xl md:leading-snug">
+              Meu compromisso é garantir que nenhuma mulher deixe de receber o que é seu por direito
+              por falta de informação ou orientação inadequada.
             </blockquote>
 
             <div className="mt-8 max-w-xl space-y-5 text-left text-base leading-relaxed text-on-surface-variant font-sans md:text-lg">
               <p>
-                Com vasta experiência em contencioso administrativo e judicial, a Dra. Paula Matos
-                lidera o Coimbra & Ruas com um foco inegociável no atendimento humanizado. Cada
-                cliente não é um número de processo, mas uma história de vida que merece respeito e
-                dedicação técnica absoluta.
+                Com vasta experiência em Direito Previdenciário, a Dra. Paula Matos lidera o Coimbra
+                & Ruas com um foco inegociável no atendimento humanizado e na análise técnica
+                criteriosa de cada caso.
               </p>
               <p>
-                Especialista em Direito Previdenciário, atua com rigor analítico para garantir que
-                nenhum detalhe da vida laboral do segurado seja ignorado pelo INSS.
+                Sabemos que, em matéria previdenciária, um detalhe ignorado pode atrasar o benefício,
+                gerar exigência desnecessária ou até levar a uma negativa evitável. Por isso, cada
+                cliente é tratado de forma individual, com atenção aos documentos, ao histórico e à
+                melhor estratégia para a realidade de cada situação.
               </p>
             </div>
 
             <div className="mt-12 flex flex-col items-stretch gap-0 overflow-hidden rounded-lg border border-outline-variant/40 bg-surface-container-low/60 shadow-sm backdrop-blur-sm sm:flex-row sm:px-2 sm:py-6">
               <div className="flex flex-col items-center justify-center px-6 py-8 text-center sm:flex-1 sm:py-6">
-                <p className="font-serif text-4xl font-semibold tabular-nums text-primary md:text-[2.75rem]">
+                <p className="font-heading text-4xl font-semibold tabular-nums text-primary md:text-[2.75rem]">
                   10+
                 </p>
                 <p className="mt-2 font-sans text-[10px] font-bold uppercase tracking-[0.2em] text-on-surface-variant">
@@ -98,7 +99,7 @@ export default function About() {
                 aria-hidden
               />
               <div className="flex flex-col items-center justify-center px-6 py-8 text-center sm:flex-1 sm:py-6">
-                <p className="font-serif text-4xl font-semibold tabular-nums text-primary md:text-[2.75rem]">
+                <p className="font-heading text-4xl font-semibold tabular-nums text-primary md:text-[2.75rem]">
                   2k+
                 </p>
                 <p className="mt-2 max-w-[12rem] font-sans text-[10px] font-bold uppercase leading-tight tracking-[0.18em] text-on-surface-variant">

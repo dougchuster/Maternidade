@@ -1,6 +1,7 @@
 import { motion } from 'motion/react';
 import { MessageCircle } from 'lucide-react';
 import { FaWhatsapp } from 'react-icons/fa';
+import { trackLeadIntent } from '@/src/analytics';
 import { CONTACT_WHATSAPP_HREF } from '@/src/contact';
 
 export default function WhatsAppCtaBanner() {
@@ -21,12 +22,12 @@ export default function WhatsAppCtaBanner() {
             <FaWhatsapp size={40} color="#ffffff" aria-hidden />
           </div>
           <div className="min-w-0 text-center sm:text-left">
-            <h3 className="text-balance font-serif text-2xl font-bold leading-[1.2] text-[#1b1918] sm:text-2xl sm:leading-[1.2] md:text-3xl md:leading-tight">
-              Entre em contato com um advogado especialista
+            <h3 className="text-balance font-heading text-2xl font-bold leading-[1.2] text-[#1b1918] sm:text-2xl sm:leading-[1.2] md:text-3xl md:leading-tight">
+              Não espere o INSS negar para correr atrás
             </h3>
             <p className="mt-3 font-sans text-base leading-relaxed text-white/95 md:mt-4 md:text-lg">
-              Agende uma consultoria diretamente pelo seu WhatsApp e converse com um de nossos especialistas.
-              Estamos prontos para te atender.
+              Descubra agora se o seu caso pode ser analisado. Atendimento rápido e orientação clara
+              sobre seus direitos ao auxílio-maternidade.
             </p>
           </div>
         </div>
@@ -35,6 +36,7 @@ export default function WhatsAppCtaBanner() {
           href={CONTACT_WHATSAPP_HREF}
           target="_blank"
           rel="noopener noreferrer"
+          onClick={() => trackLeadIntent()}
           className="group inline-flex w-full shrink-0 items-center justify-center gap-2.5 rounded-lg border border-[rgba(187,152,86,0.32)] bg-inverse-surface/70 px-6 py-4 font-sans text-[11px] font-bold uppercase leading-tight tracking-[0.14em] text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.06)] backdrop-blur-[10px] backdrop-saturate-150 transition-[background-color,border-color,transform] hover:border-[#bb9856]/45 hover:bg-inverse-surface/82 sm:w-auto sm:gap-3 sm:px-10 sm:py-[1.125rem] sm:text-xs md:text-[0.8125rem]"
         >
           <MessageCircle

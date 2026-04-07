@@ -6,19 +6,19 @@ const blocks = [
     icon: Heart,
     title: 'Atendimento Humanizado',
     description:
-      'Cada cliente é tratado com atenção, respeito e empatia. Por trás de cada processo há histórias de vida e necessidades únicas.',
+      'Você entende o seu caso com linguagem simples, sem juridiquês desnecessário.',
   },
   {
     icon: GraduationCap,
-    title: 'Experiência e Conhecimento Técnico',
+    title: 'Estratégia',
     description:
-      'Nossa equipe domina as nuances dos regimes previdenciários (RGPS e RPPS) e as constantes mudanças legislativas.',
+      'Verificamos o cenário do seu caso e orientamos o melhor próximo passo.',
   },
   {
     icon: Eye,
-    title: 'Transparência e Compromisso',
+    title: 'Agilidade e Especialização',
     description:
-      'Acompanhamos você do início ao fim, com clareza, mantendo-o informado e buscando sempre o melhor resultado possível.',
+      'Atendimento pensado para quem precisa resolver com rapidez e segurança. Atuação voltada à área previdenciária, com foco em situações que exigem atenção documental e estratégia correta.',
   },
 ] as const;
 
@@ -44,10 +44,10 @@ export default function WhyChooseUs() {
           <p className="mb-3 font-sans text-[11px] font-semibold uppercase tracking-[0.28em] text-primary-container/90">
             Diferenciais
           </p>
-          <h2 className="font-serif text-4xl leading-tight text-on-surface md:text-4xl lg:text-[2.5rem]">
-            Por que escolher o{' '}
+          <h2 className="font-heading text-3xl leading-tight text-on-surface md:text-4xl lg:text-[2.5rem]">
+            Por que fazer sua análise{' '}
             <br className="sm:hidden" />
-            <span className="italic text-primary-container">Coimbra & Ruas?</span>
+            <span className="font-bold text-primary-container">conosco?</span>
           </h2>
         </motion.div>
 
@@ -65,7 +65,7 @@ export default function WhyChooseUs() {
               <div className="mb-5 flex justify-center text-primary-container">
                 <b.icon className="h-12 w-12" strokeWidth={1.25} aria-hidden />
               </div>
-              <h3 className="mb-3 font-serif text-xl text-on-surface">{b.title}</h3>
+              <h3 className="mb-3 font-heading text-xl font-semibold text-on-surface">{b.title}</h3>
               <p className="font-sans text-sm leading-relaxed text-on-surface-variant md:text-[0.9375rem]">
                 {b.description}
               </p>

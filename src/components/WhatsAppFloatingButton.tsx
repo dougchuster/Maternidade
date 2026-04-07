@@ -1,6 +1,7 @@
 import { useState, useEffect, type MouseEvent } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { X } from 'lucide-react';
+import { trackLeadIntent } from '@/src/analytics';
 import { CONTACT_WHATSAPP_HREF } from '@/src/contact';
 
 export default function WhatsAppFloatingButton() {
@@ -41,7 +42,10 @@ export default function WhatsAppFloatingButton() {
             exit={{ opacity: 0, y: 8, scale: 0.95 }}
             transition={{ type: 'spring', stiffness: 280, damping: 22 }}
             className="relative mb-3 w-[min(100vw-2rem,300px)] max-w-[300px] cursor-pointer overflow-hidden rounded-2xl bg-white shadow-[0_8px_40px_-12px_rgba(0,0,0,0.25)]"
-            onClick={() => window.open(CONTACT_WHATSAPP_HREF, '_blank')}
+            onClick={() => {
+              trackLeadIntent();
+              window.open(CONTACT_WHATSAPP_HREF, '_blank');
+            }}
           >
             {/* Header verde */}
             <div className="flex items-center justify-between bg-[#075E54] px-4 py-2.5">
@@ -71,7 +75,7 @@ export default function WhatsAppFloatingButton() {
             <div className="px-4 py-3">
               <div className="rounded-lg bg-[#DCF8C6] px-3.5 py-2.5">
                 <p className="text-[13.5px] leading-snug text-[#1B2B34]">
-                  Olá! 👋 Posso te ajudar com sua aposentadoria ou revisão de benefícios? Agende uma consultoria gratuita!
+                  Olá! 👋 Posso te ajudar com seu auxílio-maternidade? Faça uma análise gratuita do seu caso!
                 </p>
                 <p className="mt-1 text-right text-[10px] text-[#6B7B82]">
                   agora ✓✓
@@ -101,6 +105,7 @@ export default function WhatsAppFloatingButton() {
         className="group relative flex h-[60px] w-[60px] items-center justify-center rounded-full bg-[#25D366] shadow-[0_4px_20px_-4px_rgba(37,211,102,0.6)] transition-shadow hover:shadow-[0_6px_28px_-4px_rgba(37,211,102,0.7)]"
         aria-label="Conversar pelo WhatsApp"
         onClick={() => {
+          trackLeadIntent();
           setShowNotification(false);
           setDismissed(true);
         }}

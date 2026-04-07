@@ -1,96 +1,42 @@
 import { useState } from 'react';
-import { Gavel, ImageIcon } from 'lucide-react';
+import { ImageIcon, AlertTriangle } from 'lucide-react';
 import { FaWhatsapp } from 'react-icons/fa';
 import { motion } from 'motion/react';
+import { trackLeadIntent } from '@/src/analytics';
 import { CONTACT_WHATSAPP_HREF } from '@/src/contact';
 
-/** Imagem da seção — arquivo em `public/images/uploads/aposentadoinss.webp`. */
 const PAINPOINTS_IMAGE_SRC = '/images/uploads/aposentadoinss.webp';
-/** Segunda imagem — `public/images/uploads/aposentado2.webp`. */
 const PAINPOINTS_IMAGE_SECOND_SRC = '/images/uploads/aposentado2.webp';
-/** Terceira imagem — `public/images/uploads/aposentado3.webp`. */
 const PAINPOINTS_IMAGE_THIRD_SRC = '/images/uploads/aposentado3.webp';
 
-/** Palavras-chave em vermelho */
 const accentRed = 'font-semibold text-[#b91c1c]';
 
-const challenges: {
-  n: string;
-  segments: { t: string; mark?: boolean }[];
-}[] = [
+const painItems: { n: string; text: string }[] = [
   {
     n: '01',
-    segments: [
-      { t: 'Teve seu ' },
-      { t: 'benefício negado', mark: true },
-      { t: ' pelo ' },
-      { t: 'INSS', mark: true },
-      { t: ' sem uma ' },
-      { t: 'explicação clara', mark: true },
-      { t: '?' },
-    ],
+    text: 'Está grávida ou acabou de ter bebê e não sabe se pode pedir o benefício?',
   },
   {
     n: '02',
-    segments: [
-      { t: 'Tem ' },
-      { t: 'medo', mark: true },
-      { t: ' de se aposentar com um ' },
-      { t: 'valor muito menor', mark: true },
-      { t: ' do que o esperado?' },
-    ],
+    text: 'É MEI, autônoma, facultativa, empregada doméstica ou está desempregada?',
   },
   {
     n: '03',
-    segments: [
-      { t: 'Sente que está ' },
-      { t: 'perdendo tempo', mark: true },
-      { t: ' com a ' },
-      { t: 'burocracia', mark: true },
-      { t: ' das novas regras da previdência?' },
-    ],
+    text: 'Já tentou pedir e teve exigência, atraso ou negativa?',
   },
   {
     n: '04',
-    segments: [
-      { t: 'Quer saber se o seu ' },
-      { t: 'tempo de contribuição', mark: true },
-      { t: ' já é suficiente para garantir a sua ' },
-      { t: 'aposentadoria hoje', mark: true },
-      { t: '?' },
-    ],
+    text: 'Não sabe quais documentos reunir?',
   },
   {
     n: '05',
-    segments: [
-      { t: 'Prefere que um ' },
-      { t: 'especialista analise o seu caso', mark: true },
-      { t: ' para garantir que você ' },
-      { t: 'não perca dinheiro', mark: true },
-      { t: '?' },
-    ],
+    text: 'Tem medo de fazer o pedido errado e perder tempo?',
+  },
+  {
+    n: '06',
+    text: 'Recebeu informações diferentes e não sabe em quem confiar?',
   },
 ];
-
-function ChallengeQuestion({
-  segments,
-}: {
-  segments: { t: string; mark?: boolean }[];
-}) {
-  return (
-    <p className="text-pretty font-sans text-base font-medium leading-snug tracking-tight text-on-surface sm:text-lg md:text-xl md:leading-[1.45]">
-      {segments.map((s, i) =>
-        s.mark ? (
-          <span key={i} className={accentRed}>
-            {s.t}
-          </span>
-        ) : (
-          <span key={i}>{s.t}</span>
-        ),
-      )}
-    </p>
-  );
-}
 
 function PainPointsImage() {
   const [showFallback, setShowFallback] = useState(false);
@@ -101,7 +47,7 @@ function PainPointsImage() {
         <div
           className="flex min-h-[280px] w-full flex-col items-center justify-center gap-3 rounded-2xl border-2 border-dashed border-primary-container/30 bg-gradient-to-br from-surface-container-high/90 to-surface-container-low px-6 py-12 text-center lg:min-h-0 lg:flex-1"
           role="img"
-          aria-label="Área para imagem: verifique o arquivo em public/images/uploads/aposentadoinss.webp"
+          aria-label="Verifique o arquivo em public/images/uploads/aposentadoinss.webp"
         >
           <ImageIcon className="h-10 w-10 text-primary-container/50" strokeWidth={1.25} aria-hidden />
           <p className="max-w-xs font-sans text-sm text-on-surface-variant">
@@ -115,14 +61,10 @@ function PainPointsImage() {
           <figure className="group relative min-h-[160px] overflow-hidden rounded-2xl shadow-[0_12px_32px_-20px_rgba(27,28,26,0.18)] ring-1 ring-black/[0.06]">
             <img
               src={PAINPOINTS_IMAGE_SECOND_SRC}
-              alt="Aposentadoria e planejamento previdenciário"
+              alt="Auxílio-maternidade e direitos previdenciários"
               className="h-full min-h-[160px] w-full object-cover transition duration-500 group-hover:scale-[1.02]"
               loading="lazy"
               decoding="async"
-            />
-            <div
-              className="pointer-events-none absolute inset-0 bg-gradient-to-t from-inverse-surface/15 via-transparent to-transparent opacity-70"
-              aria-hidden
             />
           </figure>
           <figure className="group relative min-h-[160px] overflow-hidden rounded-2xl shadow-[0_12px_32px_-20px_rgba(27,28,26,0.18)] ring-1 ring-black/[0.06]">
@@ -132,10 +74,6 @@ function PainPointsImage() {
               className="h-full min-h-[160px] w-full object-cover transition duration-500 group-hover:scale-[1.02]"
               loading="lazy"
               decoding="async"
-            />
-            <div
-              className="pointer-events-none absolute inset-0 bg-gradient-to-t from-inverse-surface/15 via-transparent to-transparent opacity-70"
-              aria-hidden
             />
           </figure>
         </div>
@@ -148,15 +86,11 @@ function PainPointsImage() {
       <figure className="group relative overflow-hidden rounded-2xl shadow-[0_20px_50px_-20px_rgba(27,28,26,0.25)] ring-1 ring-black/[0.06] lg:flex-1">
         <img
           src={PAINPOINTS_IMAGE_SRC}
-          alt="Aposentadoria e INSS — ilustração da seção"
+          alt="Auxílio-maternidade — ilustração da seção"
           className="aspect-[4/3] h-full w-full object-cover transition duration-500 group-hover:scale-[1.02] lg:aspect-auto lg:min-h-0"
           loading="lazy"
           decoding="async"
           onError={() => setShowFallback(true)}
-        />
-        <div
-          className="pointer-events-none absolute inset-0 bg-gradient-to-t from-inverse-surface/25 via-transparent to-transparent opacity-80"
-          aria-hidden
         />
       </figure>
 
@@ -164,14 +98,10 @@ function PainPointsImage() {
         <figure className="group relative min-h-[160px] overflow-hidden rounded-2xl shadow-[0_12px_32px_-20px_rgba(27,28,26,0.18)] ring-1 ring-black/[0.06]">
           <img
             src={PAINPOINTS_IMAGE_SECOND_SRC}
-            alt="Aposentadoria e planejamento previdenciário"
+            alt="Auxílio-maternidade e direitos previdenciários"
             className="h-full min-h-[160px] w-full object-cover transition duration-500 group-hover:scale-[1.02]"
             loading="lazy"
             decoding="async"
-          />
-          <div
-            className="pointer-events-none absolute inset-0 bg-gradient-to-t from-inverse-surface/15 via-transparent to-transparent opacity-70"
-            aria-hidden
           />
         </figure>
         <figure className="group relative min-h-[160px] overflow-hidden rounded-2xl shadow-[0_12px_32px_-20px_rgba(27,28,26,0.18)] ring-1 ring-black/[0.06]">
@@ -182,20 +112,16 @@ function PainPointsImage() {
             loading="lazy"
             decoding="async"
           />
-          <div
-            className="pointer-events-none absolute inset-0 bg-gradient-to-t from-inverse-surface/15 via-transparent to-transparent opacity-70"
-            aria-hidden
-          />
         </figure>
       </div>
     </div>
   );
 }
 
-function ChallengesBlock() {
+function PainList() {
   return (
     <ul className="flex flex-col gap-5 md:gap-6">
-      {challenges.map((item, idx) => (
+      {painItems.map((item, idx) => (
         <motion.li
           key={item.n}
           initial={{ opacity: 0, x: -12 }}
@@ -215,7 +141,9 @@ function ChallengesBlock() {
               {item.n}
             </span>
             <div className="min-w-0 flex-1 pt-0.5">
-              <ChallengeQuestion segments={item.segments} />
+              <p className="text-pretty font-sans text-base font-medium leading-snug tracking-tight text-on-surface sm:text-lg md:text-xl md:leading-[1.45]">
+                {item.text}
+              </p>
             </div>
           </div>
         </motion.li>
@@ -233,10 +161,10 @@ function ClosingHeadline() {
       transition={{ duration: 0.5 }}
       className="mx-auto w-full max-w-4xl px-2 text-center"
     >
-      <p className="font-serif text-3xl leading-[1.25] text-on-surface sm:text-3xl md:text-4xl md:leading-[1.2] lg:text-[2.75rem] lg:leading-[1.15]">
-        <span className="block">Se alguma resposta for sim,</span>
-        <span className="mt-2 block font-semibold italic text-primary-container drop-shadow-[0_2px_24px_rgba(187,152,87,0.2)] md:mt-3">
-          você não está sozinho.
+      <p className="font-heading text-3xl leading-[1.25] text-on-surface sm:text-3xl md:text-4xl md:leading-[1.2] lg:text-[2.75rem] lg:leading-[1.15]">
+        <span className="block">Se você se identificou com alguma dessas situações,</span>
+        <span className="mt-2 block font-bold text-primary-container drop-shadow-[0_2px_24px_rgba(187,152,87,0.2)] md:mt-3">
+          seu caso precisa de análise imediata.
         </span>
       </p>
       <div
@@ -247,7 +175,7 @@ function ClosingHeadline() {
   );
 }
 
-function SolutionCard() {
+function CtaCard() {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -256,47 +184,31 @@ function SolutionCard() {
       transition={{ duration: 0.55 }}
       className="relative mx-auto w-full max-w-5xl px-0 sm:px-2"
     >
-      <div className="relative overflow-hidden rounded-2xl border border-outline-variant/40 bg-gradient-to-b from-white via-surface-container-low/50 to-surface-container-high/95 shadow-[0_24px_64px_-20px_rgba(27,28,26,0.16),0_8px_32px_-12px_rgba(119,90,31,0.08)] ring-1 ring-black/[0.035]">
+      <div className="relative overflow-hidden rounded-2xl border border-white/[0.10] bg-gradient-to-b from-[#2a2623] via-[#1b1918] to-[#2a2623] shadow-[0_24px_64px_-20px_rgba(0,0,0,0.5),0_8px_32px_-12px_rgba(187,152,87,0.08)] ring-1 ring-white/[0.05] backdrop-blur-[2px]">
         <div
-          className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-primary/20 via-primary-container/70 to-primary/20"
+          className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-red-500/20 via-red-500/70 to-red-500/20"
           aria-hidden
         />
-        <div
-          className="pointer-events-none absolute -right-24 -top-28 h-72 w-72 rounded-full bg-primary-container/[0.09] blur-3xl"
-          aria-hidden
-        />
-        <div
-          className="pointer-events-none absolute -left-16 bottom-0 h-48 w-48 rounded-full bg-primary/[0.04] blur-2xl"
-          aria-hidden
-        />
-
         <div className="relative px-6 py-10 sm:px-10 sm:py-12 md:px-14 md:py-14">
           <div className="mx-auto flex max-w-4xl flex-col items-center text-center">
             <div className="mb-8 flex flex-col items-center gap-4">
-              <div className="inline-flex h-[3.25rem] w-[3.25rem] items-center justify-center rounded-2xl bg-gradient-to-br from-primary-container via-primary-container/92 to-primary/90 text-on-primary-container shadow-[0_12px_32px_-8px_rgba(119,90,31,0.35)] ring-[3px] ring-white">
-                <Gavel className="h-7 w-7" strokeWidth={1.5} aria-hidden />
+              <div className="inline-flex h-20 w-20 items-center justify-center rounded-2xl bg-gradient-to-br from-red-600 via-red-500 to-red-700 text-white shadow-[0_12px_32px_-8px_rgba(220,38,38,0.45)] ring-[3px] ring-white/20">
+                <AlertTriangle className="h-10 w-10" strokeWidth={1.5} aria-hidden />
               </div>
-              <p className="font-sans text-[0.65rem] font-semibold uppercase tracking-[0.22em] text-primary">
-                Solução jurídica
+              <p className="font-sans text-2xl font-black uppercase tracking-[0.12em] text-red-500 sm:text-3xl md:text-4xl">
+                Não espere o INSS negar
               </p>
             </div>
 
-            <h3 className="font-serif text-[1.75rem] leading-[1.18] text-on-surface sm:text-[2rem] md:text-[2.35rem] md:leading-[1.15] lg:text-[2.5rem]">
-              Nós resolvemos a complexidade para você.
+            <h3 className="font-heading text-[1.75rem] leading-[1.18] text-white sm:text-[2rem] md:text-[2.35rem] md:leading-[1.15] lg:text-[2.5rem]">
+              Descubra agora se o seu caso pode ser analisado.
             </h3>
-
-            <p className="mt-6 font-sans text-base leading-[1.75] text-on-surface-variant sm:mt-7 sm:text-[1.0625rem]">
-              Nossa abordagem editorial e minuciosa permite identificar erros nos cálculos do INSS que{' '}
-              <span className="inline-flex items-center rounded-full border border-primary/20 bg-primary-container/14 px-2.5 py-0.5 font-semibold text-primary">
-                90% dos segurados
-              </span>{' '}
-              desconhecem.
-            </p>
 
             <motion.a
               href={CONTACT_WHATSAPP_HREF}
               target="_blank"
               rel="noopener noreferrer"
+              onClick={() => trackLeadIntent()}
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.98 }}
               className="btn-animated-gradient mt-10 flex w-full max-w-lg items-center justify-center gap-3 rounded-sm px-8 py-4 text-center text-sm font-bold uppercase tracking-wide shadow-xl sm:mt-11 sm:text-base"
@@ -304,11 +216,11 @@ function SolutionCard() {
               <span className="inline-flex shrink-0" aria-hidden>
                 <FaWhatsapp size={22} />
               </span>
-              Falar no WhatsApp agora
+              Analisar meu caso agora
             </motion.a>
 
-            <p className="mt-4 max-w-sm font-sans text-xs leading-relaxed text-on-surface-variant/75">
-              Resposta rápida. Sem compromisso na primeira conversa.
+            <p className="mt-4 max-w-sm font-sans text-xs leading-relaxed text-surface/50">
+              Atendimento rápido. Sem compromisso na primeira conversa.
             </p>
           </div>
         </div>
@@ -336,17 +248,18 @@ export default function PainPoints() {
           transition={{ duration: 0.5 }}
           className="mb-10 max-w-3xl md:mb-12"
         >
-          <h2 className="font-serif text-4xl leading-tight text-on-surface md:text-5xl lg:text-[3.15rem] lg:leading-[1.12]">
-            Você se identifica com algum destes{' '}
-            <span className="italic text-primary-container">desafios?</span>
+          <h2 className="font-heading text-4xl leading-tight text-on-surface md:text-5xl lg:text-[3.15rem] lg:leading-[1.12]">
+            O maior erro é achar que{' '}
+            <span className="font-bold text-primary-container">"depois eu resolvo"</span>
           </h2>
           <p className="mt-5 font-sans text-base leading-relaxed text-on-surface-variant md:text-lg">
-            O sistema previdenciário pode ser um labirinto. Não deixe que anos de trabalho sejam
-            perdidos por falhas administrativas.
+            Todos os dias, mulheres deixam de buscar o auxílio-maternidade por acreditarem que não
+            têm direito, por estarem desempregadas, por serem MEI, autônomas ou por já terem recebido
+            alguma informação errada. A verdade é simples: muita gente só descobre que poderia ter
+            recebido o benefício quando já perdeu tempo demais.
           </p>
         </motion.div>
 
-        {/* Perguntas à esquerda / acima; imagem à direita / abaixo no mobile */}
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-2 lg:items-stretch lg:gap-12">
           <motion.div
             initial={{ opacity: 0, y: 16 }}
@@ -355,7 +268,7 @@ export default function PainPoints() {
             transition={{ duration: 0.5 }}
             className="min-w-0"
           >
-            <ChallengesBlock />
+            <PainList />
           </motion.div>
           <motion.div
             initial={{ opacity: 0, y: 16 }}
@@ -373,7 +286,7 @@ export default function PainPoints() {
         </div>
 
         <div className="mt-10 md:mt-12 lg:mt-14">
-          <SolutionCard />
+          <CtaCard />
         </div>
       </div>
     </section>

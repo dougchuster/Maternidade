@@ -9,23 +9,39 @@ import {
   CONTACT_PHONE_TEL,
   whatsAppUrlWithText,
 } from '@/src/contact';
+import { trackLeadIntent } from '@/src/analytics';
 
-/** Painel escuro — alinhado ao token do tema */
 const PANEL_DARK = '#252221';
 
-const SUBJECT_OPTIONS = [
-  'Planejamento Previdenciário',
-  'Aposentadoria',
-  'Revisão de Benefício',
-  'Outros',
+const SITUACAO_OPTIONS = [
+  'Estou grávida',
+  'Já tive bebê',
+  'Passei por adoção',
+  'Guarda para fins de adoção',
+] as const;
+
+const TRABALHO_OPTIONS = [
+  'Carteira assinada (CLT)',
+  'MEI',
+  'Autônoma',
+  'Facultativa',
+  'Empregada doméstica',
+  'Desempregada',
+] as const;
+
+const INSS_OPTIONS = [
+  'Ainda não fiz pedido',
+  'Pedido em análise',
+  'Pedido negado',
 ] as const;
 
 type FormState = {
   name: string;
   phone: string;
   email: string;
-  profissao: string;
-  subject: (typeof SUBJECT_OPTIONS)[number];
+  situacao: (typeof SITUACAO_OPTIONS)[number];
+  trabalho: (typeof TRABALHO_OPTIONS)[number];
+  inss: (typeof INSS_OPTIONS)[number];
   message: string;
 };
 
@@ -33,20 +49,22 @@ const initialForm: FormState = {
   name: '',
   phone: '',
   email: '',
-  profissao: '',
-  subject: 'Planejamento Previdenciário',
+  situacao: 'Estou grávida',
+  trabalho: 'Carteira assinada (CLT)',
+  inss: 'Ainda não fiz pedido',
   message: '',
 };
 
 function buildWhatsAppMessage(data: FormState): string {
   const lines = [
-    'Olá! Vim pelo site e gostaria de uma pré-análise.',
+    'Olá! Vim pelo site e gostaria de uma análise do meu auxílio-maternidade.',
     '',
     `*Nome:* ${data.name.trim() || '—'}`,
-    `*Telefone (WhatsApp):* ${data.phone.trim() || '—'}`,
+    `*WhatsApp:* ${data.phone.trim() || '—'}`,
     `*E-mail:* ${data.email.trim() || '—'}`,
-    `*Profissão:* ${data.profissao.trim() || '—'}`,
-    `*Assunto:* ${data.subject}`,
+    `*Situação:* ${data.situacao}`,
+    `*Trabalho:* ${data.trabalho}`,
+    `*Pedido INSS:* ${data.inss}`,
     '',
     '*Mensagem:*',
     data.message.trim() || '—',
@@ -79,6 +97,7 @@ export default function ContactForm() {
 
     const body = buildWhatsAppMessage(form);
     const url = whatsAppUrlWithText(body);
+    trackLeadIntent();
     window.open(url, '_blank', 'noopener,noreferrer');
   }
 
@@ -100,7 +119,6 @@ export default function ContactForm() {
           transition={{ duration: 0.5 }}
           className="flex flex-col overflow-hidden rounded-2xl border border-outline-variant/30 shadow-[0_28px_64px_-24px_rgba(27,28,26,0.28),0_12px_40px_-20px_rgba(119,90,31,0.12)] ring-1 ring-black/[0.05] lg:flex-row"
         >
-          {/* Coluna escura — #252221 */}
           <div
             className="relative flex min-h-[280px] flex-col justify-center border-b border-white/[0.07] p-6 sm:p-10 md:p-12 lg:min-h-[320px] lg:w-[42%] lg:min-h-0 lg:border-b-0 lg:border-r lg:border-white/[0.07] lg:p-14 xl:p-16"
             style={{ backgroundColor: PANEL_DARK }}
@@ -117,13 +135,13 @@ export default function ContactForm() {
               <p className="mb-3 font-sans text-[0.65rem] font-semibold uppercase tracking-[0.24em] text-primary-container">
                 Contato
               </p>
-              <h2 className="font-serif text-3xl leading-[1.18] text-surface sm:text-4xl lg:text-[2.35rem] lg:leading-tight">
-                Receba uma análise{' '}
-                <span className="italic text-primary-container">personalizada</span> do seu caso
+              <h2 className="font-heading text-3xl leading-[1.18] text-surface sm:text-4xl lg:text-[2.35rem] lg:leading-tight">
+                Descubra se você pode estar{' '}
+                <span className="font-bold text-primary-container">perdendo o seu auxílio-maternidade</span>
               </h2>
               <p className="mt-6 font-sans text-base leading-relaxed text-surface/72">
-                Entenda onde você está e o que precisa para se aposentar com tranquilidade. Preencha o
-                formulário e nossa equipe entrará em contato em até 24h úteis.
+                Preencha os dados abaixo e receba uma análise inicial do seu caso. Atendimento rápido
+                e orientação clara sobre documentos e próximos passos.
               </p>
 
               <div
@@ -170,7 +188,6 @@ export default function ContactForm() {
             </div>
           </div>
 
-          {/* Formulário */}
           <div className="relative bg-primary-container p-6 sm:p-10 md:p-12 lg:w-[58%] lg:p-14 xl:p-16">
             <div
               className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_85%_70%_at_100%_0%,rgba(255,255,255,0.14),transparent_55%)]"
@@ -180,8 +197,8 @@ export default function ContactForm() {
               <p className="mb-1 font-sans text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-on-primary-container/75">
                 Formulário
               </p>
-              <p className="mb-8 font-serif text-xl text-on-primary-container sm:text-2xl">
-                Envie sua mensagem
+              <p className="mb-8 font-heading text-xl text-on-primary-container sm:text-2xl">
+                Quero analisar meu direito
               </p>
 
               <form
@@ -208,7 +225,7 @@ export default function ContactForm() {
                   </div>
                   <div>
                     <label htmlFor="contact-phone" className={labelClass}>
-                      Telefone (WhatsApp)
+                      WhatsApp
                     </label>
                     <input
                       id="contact-phone"
@@ -240,39 +257,91 @@ export default function ContactForm() {
                 </div>
 
                 <div>
-                  <label htmlFor="contact-profissao" className={labelClass}>
-                    Profissão
-                  </label>
-                  <input
-                    id="contact-profissao"
-                    name="profissao"
-                    value={form.profissao}
-                    onChange={(e) => setForm((f) => ({ ...f, profissao: e.target.value }))}
-                    className={fieldClass}
-                    placeholder="Ex.: Servidor público, autônomo, CLT..."
-                    type="text"
-                    autoComplete="organization-title"
-                  />
-                </div>
-
-                <div>
-                  <label htmlFor="contact-subject" className={labelClass}>
-                    Assunto
+                  <label htmlFor="contact-situacao" className={labelClass}>
+                    Você está grávida, já teve bebê ou passou por adoção?
                   </label>
                   <div className="relative">
                     <select
-                      id="contact-subject"
-                      name="subject"
-                      value={form.subject}
+                      id="contact-situacao"
+                      name="situacao"
+                      value={form.situacao}
                       onChange={(e) =>
                         setForm((f) => ({
                           ...f,
-                          subject: e.target.value as FormState['subject'],
+                          situacao: e.target.value as FormState['situacao'],
                         }))
                       }
                       className={`${fieldClass} cursor-pointer appearance-none pr-11`}
                     >
-                      {SUBJECT_OPTIONS.map((opt) => (
+                      {SITUACAO_OPTIONS.map((opt) => (
+                        <option
+                          key={opt}
+                          value={opt}
+                          className="bg-[#f5f0e8] text-on-surface"
+                        >
+                          {opt}
+                        </option>
+                      ))}
+                    </select>
+                    <ChevronDown
+                      className="pointer-events-none absolute right-3.5 top-1/2 h-5 w-5 -translate-y-1/2 text-on-primary-container/55"
+                      aria-hidden
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label htmlFor="contact-trabalho" className={labelClass}>
+                    Como você trabalha ou trabalhava?
+                  </label>
+                  <div className="relative">
+                    <select
+                      id="contact-trabalho"
+                      name="trabalho"
+                      value={form.trabalho}
+                      onChange={(e) =>
+                        setForm((f) => ({
+                          ...f,
+                          trabalho: e.target.value as FormState['trabalho'],
+                        }))
+                      }
+                      className={`${fieldClass} cursor-pointer appearance-none pr-11`}
+                    >
+                      {TRABALHO_OPTIONS.map((opt) => (
+                        <option
+                          key={opt}
+                          value={opt}
+                          className="bg-[#f5f0e8] text-on-surface"
+                        >
+                          {opt}
+                        </option>
+                      ))}
+                    </select>
+                    <ChevronDown
+                      className="pointer-events-none absolute right-3.5 top-1/2 h-5 w-5 -translate-y-1/2 text-on-primary-container/55"
+                      aria-hidden
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label htmlFor="contact-inss" className={labelClass}>
+                    Já fez pedido no INSS?
+                  </label>
+                  <div className="relative">
+                    <select
+                      id="contact-inss"
+                      name="inss"
+                      value={form.inss}
+                      onChange={(e) =>
+                        setForm((f) => ({
+                          ...f,
+                          inss: e.target.value as FormState['inss'],
+                        }))
+                      }
+                      className={`${fieldClass} cursor-pointer appearance-none pr-11`}
+                    >
+                      {INSS_OPTIONS.map((opt) => (
                         <option
                           key={opt}
                           value={opt}
@@ -291,7 +360,7 @@ export default function ContactForm() {
 
                 <div>
                   <label htmlFor="contact-message" className={labelClass}>
-                    Mensagem
+                    Conte seu caso
                   </label>
                   <textarea
                     id="contact-message"
@@ -322,12 +391,20 @@ export default function ContactForm() {
                   className="flex w-full items-center justify-center gap-3 rounded-lg py-4 font-sans text-base font-bold uppercase tracking-[0.06em] text-surface shadow-[0_8px_28px_-6px_rgba(0,0,0,0.35)] transition-[filter,box-shadow] hover:brightness-110 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-on-primary-container"
                 >
                   <MessageCircle className="h-5 w-5 shrink-0 opacity-90" strokeWidth={2} aria-hidden />
-                  Solicitar análise agora
+                  Quero analisar meu direito
                 </motion.button>
                 <p className="text-center font-sans text-[0.7rem] leading-relaxed text-on-primary-container/70">
                   <span className="inline-flex items-center justify-center gap-1.5">
                     <Lock className="h-3 w-3 shrink-0 opacity-90" strokeWidth={2} aria-hidden />
-                    Seus dados estão protegidos. O contato é apenas informativo e não gera compromisso.
+                    Ao enviar seus dados, você autoriza o contato da equipe para retorno sobre sua
+                    solicitação. Consulte nossa{' '}
+                    <a
+                      href="/privacidade"
+                      className="font-medium underline-offset-2 hover:underline"
+                    >
+                      política de privacidade
+                    </a>
+                    .
                   </span>
                 </p>
               </form>

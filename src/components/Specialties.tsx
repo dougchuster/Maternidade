@@ -1,18 +1,17 @@
 import type { CSSProperties } from 'react';
 import {
-  Baby,
-  Calendar,
-  FileText,
-  Heart,
-  HeartPulse,
-  Landmark,
-  ShieldAlert,
+  FileCheck,
+  Search,
+  Shield,
+  Target,
   UserCheck,
-  Users,
+  MessageSquareText,
 } from 'lucide-react';
 import { motion } from 'motion/react';
+import { FaWhatsapp } from 'react-icons/fa';
+import { trackLeadIntent } from '@/src/analytics';
+import { CONTACT_WHATSAPP_HREF } from '@/src/contact';
 
-/** Fundo escuro aplicado inline para não ser sobrescrito pelo pipeline do Tailwind v4. */
 const specialtiesSectionStyle: CSSProperties = {
   backgroundColor: '#3d3a33',
   backgroundImage: [
@@ -26,57 +25,38 @@ const specialtiesSectionStyle: CSSProperties = {
   isolation: 'isolate',
 };
 
-/** Topo do card: esquerda → brilho no canto superior direito; centro → centro; direita → canto superior esquerdo */
 const CARD_RADIAL_ORIGIN = ['100% 0%', '50% 0%', '0% 0%'] as const;
 
-const specialties = [
-  {
-    icon: Calendar,
-    title: "Planejamento Previdenciário",
-    description: "Estudo técnico para descobrir a melhor data e o maior valor para sua aposentadoria.",
-  },
+const authorityItems = [
   {
     icon: UserCheck,
-    title: "Aposentadorias",
-    description: "Por idade, tempo de contribuição, especial ou por incapacidade. Análise completa de vínculos.",
+    title: 'Atendimento focado',
+    description: 'Foco em salário-maternidade e benefícios previdenciários. Sem respostas genéricas.',
   },
   {
-    icon: FileText,
-    title: "Revisão de Benefícios",
-    description: "Revisão da Vida Toda e outras teses para aumentar o valor do que você já recebe.",
+    icon: Search,
+    title: 'Análise individual',
+    description: 'Cada caso é analisado de forma personalizada, sem respostas prontas.',
   },
   {
-    icon: Users,
-    title: "Pensão por Morte",
-    description: "Garantia de amparo aos dependentes com agilidade e sensibilidade jurídica.",
+    icon: FileCheck,
+    title: 'Verificação documental',
+    description: 'Orientação objetiva sobre documentos necessários e próximos passos.',
   },
   {
-    icon: Heart,
-    title: "BPC / LOAS",
-    description: "Benefício para idosos ou pessoas com deficiência em situação de vulnerabilidade.",
+    icon: Target,
+    title: 'Estratégia correta',
+    description: 'Planejamento pensado para reduzir erros no requerimento.',
   },
   {
-    icon: Landmark,
-    title: "Servidor Público (RPPS)",
-    description: "Regras específicas para servidores municipais, estaduais e federais.",
+    icon: Shield,
+    title: 'Suporte especializado',
+    description: 'Atendimento para casos com dúvida, exigência ou negativa.',
   },
   {
-    icon: HeartPulse,
-    title: "Auxílio-Doença e Acidente",
-    description:
-      "Benefícios por incapacidade temporária ou permanente. Acompanhamento de perícias e recursos contra indeferimentos.",
-  },
-  {
-    icon: Baby,
-    title: "Auxílio-Maternidade",
-    description:
-      "Proteção financeira durante afastamento por parto, adoção ou guarda judicial. RGPS e RPPS.",
-  },
-  {
-    icon: ShieldAlert,
-    title: "Defesa Contra Fraudes",
-    description:
-      "Empréstimos consignados indevidos, descontos irregulares e filiações fraudulentas. Proteção para idosos e pensionistas.",
+    icon: MessageSquareText,
+    title: 'Clareza total',
+    description: 'Você entende seu caso com linguagem simples, sem juridiquês desnecessário.',
   },
 ];
 
@@ -99,14 +79,20 @@ export default function Specialties() {
       />
       <div className="relative z-[2] mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mb-12 text-center sm:mb-16">
-          <h2 className="mb-4 font-serif text-4xl text-white sm:text-5xl md:text-[2.85rem] md:leading-tight">
-            Especialidades <span className="italic text-primary-container">Previdenciárias</span>
+          <h2 className="mb-4 font-heading text-4xl text-white sm:text-5xl md:text-[2.85rem] md:leading-tight">
+            Atuação especializada em{' '}
+            <span className="font-bold text-primary-container">auxílio-maternidade</span>
           </h2>
-          <div className="mx-auto h-px w-24 bg-primary-container/90" />
+          <p className="mx-auto max-w-3xl font-sans text-base leading-relaxed text-white/80">
+            Aqui, o seu caso não é tratado com resposta genérica. Nossa atuação é focada em análise
+            previdenciária estratégica, com atenção aos documentos, ao histórico da segurada e à
+            melhor condução do pedido conforme a realidade de cada cliente.
+          </p>
+          <div className="mx-auto mt-6 h-px w-24 bg-primary-container/90" />
         </div>
 
         <div className="grid grid-cols-1 gap-6 md:grid-cols-3 md:gap-7">
-          {specialties.map((item, idx) => (
+          {authorityItems.map((item, idx) => (
             <motion.div
               key={idx}
               initial={{ opacity: 0, y: 20 }}
@@ -123,7 +109,6 @@ export default function Specialties() {
                 }}
                 aria-hidden
               />
-              {/* Barra dourada — metade da espessura anterior; extremidades arredondadas */}
               <div
                 className="pointer-events-none absolute left-0 top-1/2 z-[1] h-[68%] w-[2.5px] -translate-y-1/2 rounded-full bg-[#b08d35]"
                 aria-hidden
@@ -133,7 +118,7 @@ export default function Specialties() {
                   className="mb-4 h-11 w-11 shrink-0 text-[#c2a35d]"
                   strokeWidth={1.15}
                 />
-                <h3 className="mb-3 max-w-full font-serif text-xl font-medium leading-snug text-[#c2a35d] md:text-[1.35rem]">
+                <h3 className="mb-3 max-w-full font-heading text-xl font-medium leading-snug text-[#c2a35d] md:text-[1.35rem]">
                   {item.title}
                 </h3>
                 <p className="max-w-full font-sans text-sm leading-relaxed text-white">
@@ -142,6 +127,23 @@ export default function Specialties() {
               </div>
             </motion.div>
           ))}
+        </div>
+
+        <div className="mt-14 text-center">
+          <motion.a
+            href={CONTACT_WHATSAPP_HREF}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={() => trackLeadIntent()}
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.98 }}
+            className="btn-animated-gradient inline-flex items-center justify-center gap-3 rounded-sm px-8 py-4 text-center text-sm font-bold uppercase tracking-wide shadow-xl"
+          >
+            <span className="inline-flex shrink-0" aria-hidden>
+              <FaWhatsapp size={22} />
+            </span>
+            Quero uma análise especializada
+          </motion.a>
         </div>
       </div>
     </section>

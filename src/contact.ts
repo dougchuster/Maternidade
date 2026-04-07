@@ -9,7 +9,7 @@ export const CONTACT_WHATSAPP_DIGITS = '556196942545';
  * O formulário de contato continua usando {@link whatsAppUrlWithText} com texto montado no envio.
  */
 export const CONTACT_WHATSAPP_DEFAULT_MESSAGE =
-  'Dra. Paula, preciso de ajuda sobre meus direitos!';
+  'Olá! Vim pelo site e gostaria de saber se tenho direito ao auxílio-maternidade.';
 
 /** Monta o link wa.me com texto pré-preenchido (UTF-8). */
 export function whatsAppUrlWithText(message: string): string {
